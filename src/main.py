@@ -1,18 +1,11 @@
 import cv2
-import numpy as np
-from gui_buttons import Buttons
-
-buttons = Buttons()
-
-
-colors = buttons.colors
 
 # Opencv DNN
 net = cv2.dnn.readNet("C:\\Users\\HP\\Desktop\\STUDIA\\BicycleDetection-main\\src\\dnn_model\\yolov4-tiny.weights",
                       "C:\\Users\\HP\\Desktop\\STUDIA\\BicycleDetection-main\\src\\dnn_model\\yolov4-tiny.cfg")
 # net = cv2.dnn.readNet("C:\\Users\\HP\\Desktop\\STUDIA\\BicycleDetection-main\\src\\dnn_model\\yolov4-tiny.weights", "C:\\Users\\HP\\Desktop\\STUDIA\\BicycleDetection-main\\src\\dnn_model\\yolov3-tiny.cfg")
 model = cv2.dnn_DetectionModel(net)
-model.setInputParams(size=(640, 640), scale=1/255)
+model.setInputParams(size=(800, 800), scale=1/255)
 
 # Load class list
 classes = []
@@ -33,17 +26,9 @@ cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
 # Full HD 1920 x 1080
 
 
-def click_button(event, x, y, flags, params):
-    global button_person
-    if event == cv2.EVENT_LBUTTONDOWN:
-        print(x, y)
-        buttons.button_click(x, y)
-
-
 # Create window
 cv2.namedWindow("Frame", cv2.WND_PROP_FULLSCREEN)
 cv2.setWindowProperty("Frame", cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
-cv2.setMouseCallback("Frame", click_button)
 
 counter = 0
 
@@ -58,7 +43,7 @@ while True:
         (x, y, w, h) = bbox
 
         class_name = classes[class_id]
-        color = colors[class_id]
+        color = (0, 255, 255)
 
         if class_name == "bicycle":
             print(score, ";", counter)
